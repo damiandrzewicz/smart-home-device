@@ -13,10 +13,10 @@
 #include "SmartDevice/DeviceCore.hpp"
 #include "SmartDevice/DeviceType.hpp"
 
-
+#include "Pheripherial/Test.h"
 
 //Tag used for logging
-static const char* TAG = "TemplateNode";
+static const char* TAG = "AppMain";
 
 //Make app_main compatible with C++
 extern "C"{ void app_main(void); }
@@ -34,6 +34,11 @@ void app_main(void)
     auto &core = SmartDevice::DeviceCore::getInstance();
     core.getDeviceInfo().deviceType = SmartDevice::DeviceType::Value::Template;
     core.start();
+
+    ESP_LOGI(TAG, "Core initialized!");
+
+    Test t;
+    t.test();
     
     while(1) { vTaskDelay(1000 / portTICK_PERIOD_MS); }
 }
