@@ -1,5 +1,6 @@
 #include <string>
 #include <string.h>
+#include <memory>
 
 #include "esp_system.h"
 #include "nvs.h"
@@ -14,6 +15,8 @@
 #include "SmartDevice/DeviceType.hpp"
 
 #include "Pheripherial/Test.h"
+
+#include "DomainSmartMessage/RelayCommandHandler.hpp"
 
 //Tag used for logging
 static const char* TAG = "AppMain";
@@ -33,6 +36,9 @@ void app_main(void)
 
     auto &core = SmartDevice::DeviceCore::getInstance();
     core.getDeviceInfo().deviceType = SmartDevice::DeviceType::Value::RelayDriver;
+
+    core.getMessageManager().registerMessageHandler(std::make_shared<RelayCommandHandler>());
+
     core.start();
 
     ESP_LOGI(TAG, "Core initialized!");
