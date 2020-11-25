@@ -32,7 +32,7 @@ void app_main(void)
     ESP_ERROR_CHECK(ret);
 
     auto &core = SmartDevice::DeviceCore::getInstance();
-    core.getDeviceInfo().deviceType = SmartDevice::DeviceType::Value::Template;
+    core.getDeviceInfo().deviceType = SmartDevice::DeviceType::Value::RelayDriver;
     core.start();
 
     ESP_LOGI(TAG, "Core initialized!");
