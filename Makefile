@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := smart-home-device-template
+PROJECT_NAME := smart-home-device-relay-driver
 
 EXTRA_COMPONENT_DIRS += ./../smart-home-device-libs/network_wrapper
 EXTRA_COMPONENT_DIRS += ./../smart-home-device-libs/ota_wrapper
