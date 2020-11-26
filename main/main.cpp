@@ -18,6 +18,9 @@
 
 #include "DomainSmartMessage/RelayCommandHandler.hpp"
 
+#include "Relay/RelayManager.hpp"
+#include "Relay/RelayGpioOutputCommand.hpp"
+
 //Tag used for logging
 static const char* TAG = "AppMain";
 
@@ -37,7 +40,16 @@ void app_main(void)
     auto &core = SmartDevice::DeviceCore::getInstance();
     core.getDeviceInfo().deviceType = SmartDevice::DeviceType::Value::RelayDriver;
 
-    core.getMessageManager().registerMessageHandler(std::make_shared<RelayCommandHandler>());
+    auto relayManager = std::make_shared<RelayManager>();
+    relayManager->registerRelay(std::make_shared<RelayGpioOutputCommand>(26));
+    relayManager->registerRelay(std::make_shared<RelayGpioOutputCommand>(27));
+
+    auto relayCommandHandler = std::make_shared<RelayCommandHandler>();
+    relayCommandHandler->registerRelayManager(relayManager);
+
+    core.getMessageManager().registerMessageHandler(relayCommandHandler);
+
+
 
     core.start();
 
