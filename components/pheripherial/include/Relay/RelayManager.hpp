@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include <list>
 
 #include "RtosUtils/SemaphoreGuard.hpp"
 
@@ -19,7 +20,7 @@ public:
 
     void registerRelay(std::shared_ptr<RelayGpioOutputCommand> gpioCommand);
 
-    void executeCommand(RelayCommand relayCommand);
+    void command(std::list<RelayCommand> relayCommands);
 
 private:
     static constexpr const char *TAG = "RelayManager";

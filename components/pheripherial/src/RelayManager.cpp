@@ -21,13 +21,21 @@ void RelayManager::registerRelay(std::shared_ptr<RelayGpioOutputCommand> gpioCom
     ESP_LOGD(TAG, "Registered relay number: [%d]", number);
 }
 
-void RelayManager::executeCommand(RelayCommand relayCommand)
+void RelayManager::command(std::list<RelayCommand> relayCommands)
 {
-    ESP_LOGD(TAG, "Executing command: [%s]", relayCommand.toString().c_str());
-    auto relayItem = _relays.find(relayCommand.number);
-    if(relayItem == _relays.end()) return;
-
-    auto relay = relayItem->second;
     
-    relay->setState(relayCommand.state, relayCommand.timeout);
+
+    for(auto cmd : relayCommands)
+    {
+        ESP_LOGD(TAG, "Executing command: [%s]", cmd.toString().c_str());
+        
+        auto relayItem = _relays.find(cmd.number);
+        if(relayItem == _relays.end()) return;
+
+        auto relay = relayItem->second;
+        
+        relay->setState(cmd.state, cmd.timeout);
+    }
+
+
 }

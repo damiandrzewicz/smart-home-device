@@ -1,5 +1,7 @@
 #pragma once
 
+#include <list>
+
 #include "SmartMessage/MessageHandler.hpp"
 
 #include "DomainSmartMessage/RelayCommand.hpp"
@@ -26,6 +28,8 @@ protected:
         }
     */
     virtual void _handle() override{
+        std::list<RelayCommand> commands;
+
         auto relays = cJSON_GetObjectItem(getDataJsonObject(), "relays");
         if(!cJSON_IsArray(relays))
         {
@@ -70,9 +74,10 @@ protected:
                 }
                 cmd.timeout = timeout->valuedouble;
             }
-
-            if(_relayManager) _relayManager->executeCommand(cmd);
+            commands.push_back(cmd);
         }
+
+        if(_relayManager) _relayManager->command(commands);
     }
 
 private:
